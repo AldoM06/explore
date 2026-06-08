@@ -11,21 +11,38 @@ TOURS = [
     ('uxmal', 'Uxmal – Ciudad de los Templos'),
 ]
 
+from django import forms
+from .models import ContactMessage
+
 class ContactForm(forms.ModelForm):
-    tour = forms.ChoiceField(choices=TOURS, required=False, label='Tour de interés')
+    # 🔹 Agregar el campo tour con las opciones
+    tour = forms.ChoiceField(
+        choices=TOURS,
+        required=False,
+        widget=forms.Select(attrs={
+            'class': 'form-select'
+        })
+    )
 
     class Meta:
-        model  = ContactMessage
+        model = ContactMessage
         fields = ['nombre', 'email', 'telefono', 'tour', 'mensaje']
-        labels = {
-            'nombre':   'Nombre completo',
-            'email':    'Correo electrónico',
-            'telefono': 'Teléfono (opcional)',
-            'mensaje':  'Mensaje',
-        }
         widgets = {
-            'nombre':   forms.TextInput(attrs={'placeholder': 'Tu nombre'}),
-            'email':    forms.EmailInput(attrs={'placeholder': 'correo@ejemplo.com'}),
-            'telefono': forms.TextInput(attrs={'placeholder': '+52 55 0000 0000'}),
-            'mensaje':  forms.Textarea(attrs={'placeholder': '¿En qué podemos ayudarte?', 'rows': 4}),
+            'nombre': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Tu nombre completo'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'tucorreo@ejemplo.com'
+            }),
+            'telefono': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': '+52 55 1234 5678'
+            }),
+            'mensaje': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': '¿Cómo podemos ayudarte?',
+                'rows': 4
+            }),
         }
