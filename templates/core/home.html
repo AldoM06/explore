@@ -1,0 +1,906 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xplore — Turismo Arqueológico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:      #C9A84C;
+      --gold-light:#E8D5A3;
+      --gold-dark: #8B6914;
+      --earth:     #3D2B1F;
+      --earth-mid: #6B4C35;
+      --earth-light:#F5EDE0;
+      --stone:     #9E8E7E;
+      --white:     #FDFAF5;
+      --black:     #1A1208;
+      --ff-display:'Cormorant Garamond', Georgia, serif;
+      --ff-body:   'Jost', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--ff-body);
+      background: var(--white);
+      color: var(--earth);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAVIGATION ────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(26,18,8,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+
+    .nav-logo {
+      font-family: var(--ff-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); font-weight: 300; }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: rgba(253,250,245,0.75);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      padding: .55rem 1.4rem;
+      border: 1px solid var(--gold);
+      color: var(--gold) !important;
+      border-radius: 2px;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--black) !important; }
+
+    /* hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 1.5px; background: var(--gold); transition: .3s; }
+
+    /* ─── HERO ──────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--black);
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(201,168,76,.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(107,76,53,.25) 0%, transparent 55%),
+        linear-gradient(160deg, #1A1208 0%, #2A1C10 50%, #0E0B06 100%);
+    }
+
+    /* decorative SVG ruins silhouette */
+    .hero-silhouette {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      opacity: .15;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 2rem;
+      animation: fadeUp .9s ease both;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--ff-body);
+      font-size: .7rem;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: var(--ff-display);
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-subtitle {
+      font-family: var(--ff-display);
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: rgba(253,250,245,.55);
+      font-weight: 300;
+      margin-bottom: 3rem;
+      letter-spacing: .02em;
+    }
+
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      padding: .9rem 2.4rem;
+      background: var(--gold);
+      color: var(--black);
+      font-family: var(--ff-body);
+      font-size: .8rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-weight: 500;
+      border: none; cursor: pointer;
+      transition: all .25s;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .btn-outline {
+      padding: .9rem 2.4rem;
+      border: 1px solid rgba(253,250,245,.3);
+      color: var(--white);
+      font-family: var(--ff-body);
+      font-size: .8rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-weight: 400;
+      transition: all .25s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      color: rgba(253,250,245,.4);
+      font-size: .65rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+    .hero-scroll::after {
+      content: '';
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    /* ─── SECTION SHARED ───────────────────────────────────── */
+    section { padding: 7rem 2rem; }
+
+    .section-label {
+      font-size: .65rem;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--earth);
+      margin-bottom: 1.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--gold-dark); }
+
+    .divider {
+      width: 60px; height: 1px;
+      background: var(--gold);
+      margin: 1.5rem 0 2.5rem;
+    }
+    .divider.center { margin-left: auto; margin-right: auto; }
+
+    /* ─── ABOUT ─────────────────────────────────────────────── */
+    #about { background: var(--earth-light); }
+
+    .about-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+    }
+
+    .about-text p {
+      font-size: 1rem; line-height: 1.9;
+      color: var(--earth-mid);
+      margin-bottom: 1.2rem;
+    }
+
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    }
+    .stat {
+      padding: 1.8rem;
+      border: 1px solid rgba(201,168,76,.3);
+      background: var(--white);
+      text-align: center;
+    }
+    .stat-num {
+      font-family: var(--ff-display);
+      font-size: 3rem;
+      font-weight: 600;
+      color: var(--gold-dark);
+      display: block;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: .75rem;
+      letter-spacing: .1em;
+      color: var(--stone);
+      text-transform: uppercase;
+      margin-top: .4rem;
+      display: block;
+    }
+
+    /* ─── TOURS ─────────────────────────────────────────────── */
+    #tours { background: var(--white); }
+
+    .tours-header { text-align: center; margin-bottom: 4rem; }
+
+    .tours-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: rgba(201,168,76,.2);
+      border: 1px solid rgba(201,168,76,.2);
+    }
+
+    .tour-card {
+      background: var(--white);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all .35s ease;
+      cursor: default;
+    }
+    .tour-card::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      width: 100%; height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .35s ease;
+    }
+    .tour-card:hover::before { transform: scaleX(1); }
+    .tour-card:hover { background: var(--earth-light); }
+
+    .tour-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .tour-name {
+      font-family: var(--ff-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--earth);
+      margin-bottom: .3rem;
+    }
+    .tour-location {
+      font-size: .7rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      margin-bottom: 1rem;
+    }
+    .tour-desc {
+      font-size: .9rem;
+      line-height: 1.7;
+      color: var(--earth-mid);
+      margin-bottom: 1.5rem;
+    }
+    .tour-duration {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .75rem;
+      color: var(--stone);
+      letter-spacing: .05em;
+    }
+    .tour-duration::before { content: '◷'; color: var(--gold); }
+
+    /* ─── TESTIMONIALS ──────────────────────────────────────── */
+    #testimonials {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .testimonials-header { text-align: center; margin-bottom: 4rem; }
+    .testimonials-header .section-title { color: var(--white); }
+
+    .testimonials-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    }
+
+    .testimonial-card {
+      padding: 2.5rem;
+      border: 1px solid rgba(201,168,76,.2);
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '"';
+      font-family: var(--ff-display);
+      font-size: 5rem;
+      color: var(--gold);
+      opacity: .3;
+      position: absolute;
+      top: .5rem; left: 1.5rem;
+      line-height: 1;
+    }
+
+    .testimonial-text {
+      font-family: var(--ff-display);
+      font-size: 1.05rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: rgba(253,250,245,.8);
+      margin-bottom: 1.5rem;
+      position: relative; z-index: 1;
+    }
+
+    .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+    .author-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--ff-display);
+      font-size: 1.1rem;
+      color: var(--black);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--white);
+    }
+    .author-tour {
+      font-size: .72rem;
+      color: var(--gold);
+      letter-spacing: .05em;
+    }
+    .stars { color: var(--gold); font-size: .8rem; margin-bottom: .3rem; }
+
+    /* ─── CONTACT ───────────────────────────────────────────── */
+    #contact { background: var(--earth-light); }
+
+    .contact-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; align-items: start;
+    }
+
+    .contact-info h2 { margin-bottom: 1rem; }
+
+    .contact-info p {
+      font-size: .95rem;
+      line-height: 1.8;
+      color: var(--earth-mid);
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-details { display: flex; flex-direction: column; gap: 1.2rem; }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+    }
+    .contact-icon {
+      width: 36px; height: 36px;
+      border: 1px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem;
+      flex-shrink: 0;
+      color: var(--gold);
+    }
+    .contact-item-text { font-size: .9rem; color: var(--earth-mid); line-height: 1.5; }
+    .contact-item-label { font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; color: var(--stone); margin-bottom: .1rem; }
+
+    /* FORM */
+    .contact-form-wrap {
+      background: var(--white);
+      padding: 3rem;
+      border: 1px solid rgba(201,168,76,.2);
+    }
+
+    .form-title {
+      font-family: var(--ff-display);
+      font-size: 1.6rem;
+      color: var(--earth);
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label {
+      display: block;
+      font-size: .7rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: .5rem;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: .8rem 1rem;
+      border: 1px solid rgba(107,76,53,.2);
+      background: var(--white);
+      font-family: var(--ff-body);
+      font-size: .9rem;
+      color: var(--earth);
+      outline: none;
+      transition: border-color .25s;
+      border-radius: 0;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+    }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239E8E7E' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    .form-errors {
+      font-size: .8rem;
+      color: #c0392b;
+      margin-top: .3rem;
+    }
+
+    /* Django messages */
+    .messages-container {
+      position: fixed; top: 5rem; right: 1.5rem; z-index: 200;
+      display: flex; flex-direction: column; gap: .5rem;
+    }
+    .message-alert {
+      padding: 1rem 1.5rem;
+      border-left: 3px solid var(--gold);
+      background: var(--white);
+      box-shadow: 0 4px 20px rgba(0,0,0,.12);
+      font-size: .85rem;
+      color: var(--earth);
+      max-width: 320px;
+      animation: slideIn .4s ease;
+    }
+    .message-alert.error { border-color: #c0392b; }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      background: var(--black);
+      padding: 4rem 2rem 2rem;
+      color: rgba(253,250,245,.5);
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .footer-brand { }
+    .footer-logo {
+      font-family: var(--ff-display);
+      font-size: 1.8rem;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .footer-brand p { font-size: .85rem; line-height: 1.8; }
+    .footer-col h4 {
+      font-size: .65rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .footer-col a {
+      color: rgba(253,250,245,.5);
+      text-decoration: none;
+      font-size: .85rem;
+      transition: color .2s;
+    }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom {
+      max-width: 1100px; margin: 2rem auto 0;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .75rem;
+    }
+
+    /* ─── ANIMATIONS ─────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(8px); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      nav { padding: 1.2rem 2rem; }
+      .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .tours-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; position: fixed; inset: 0; background: var(--black); align-items: center; justify-content: center; gap: 2.5rem; z-index: 99; }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1rem; }
+      .hamburger { display: flex; }
+      .tours-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form-wrap { padding: 2rem 1.5rem; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      section { padding: 5rem 1.5rem; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; gap: .5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MESSAGES -->
+  {% if messages %}
+  <div class="messages-container">
+    {% for message in messages %}
+    <div class="message-alert {% if message.tags == 'error' %}error{% endif %}">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">X<span>plore</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">Nosotros</a></li>
+      <li><a href="#tours">Tours</a></li>
+      <li><a href="#testimonials">Testimonios</a></li>
+      <li><a href="#contact" class="nav-cta">Contacto</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+
+    <!-- Silhouette decorativa de pirámide -->
+    <svg class="hero-silhouette" viewBox="0 0 1440 300" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="720,40 200,300 1240,300" fill="#C9A84C"/>
+      <polygon points="300,120 100,300 500,300" fill="#8B6914"/>
+      <polygon points="1140,100 950,300 1340,300" fill="#8B6914"/>
+      <rect x="680" y="40" width="80" height="20" fill="#C9A84C"/>
+      <rect x="690" y="20" width="60" height="20" fill="#C9A84C"/>
+    </svg>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">Turismo Arqueológico · México</p>
+      <h1 class="hero-title">
+        Viaja al<br><em>corazón</em><br>del pasado
+      </h1>
+      <p class="hero-subtitle">Recorridos exclusivos por los sitios arqueológicos<br>más extraordinarios de Mesoamérica</p>
+      <div class="hero-buttons">
+        <a href="#tours" class="btn-primary">Explorar Tours</a>
+        <a href="#contact" class="btn-outline">Reservar Ahora</a>
+      </div>
+    </div>
+    <div class="hero-scroll">Descubrir</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-inner">
+      <div class="about-text reveal">
+        <span class="section-label">Quiénes Somos</span>
+        <h2 class="section-title">Una <em>pasión</em> por la historia viva</h2>
+        <div class="divider"></div>
+        <p>En Explore creemos que los sitios arqueológicos no son solo ruinas: son portales hacia civilizaciones que transformaron la historia de la humanidad. Nuestros guías especializados te llevan más allá de lo que ven los turistas comunes.</p>
+        <p>Cada recorrido es diseñado para conectarte con la cultura, la arquitectura y la cosmovisión de las grandes civilizaciones mesoamericanas, con grupos pequeños y experiencias auténticas.</p>
+        <a href="#contact" class="btn-primary" style="display:inline-block;margin-top:1rem">Habla con nosotros</a>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat">
+          <span class="stat-num">12+</span>
+          <span class="stat-label">Sitios Arqueológicos</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">500+</span>
+          <span class="stat-label">Viajeros Satisfechos</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">8</span>
+          <span class="stat-label">Guías Especializados</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">5★</span>
+          <span class="stat-label">Calificación Promedio</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOURS -->
+  <section id="tours">
+    <div class="tours-header reveal">
+      <span class="section-label">Destinos</span>
+      <h2 class="section-title">Nuestros <em>Tours</em> Arqueológicos</h2>
+      <div class="divider center"></div>
+    </div>
+
+    <div class="tours-grid">
+      <div class="tour-card reveal">
+        <span class="tour-icon">🏛️</span>
+        <div class="tour-name">Teotihuacán</div>
+        <div class="tour-location">Estado de México</div>
+        <p class="tour-desc">Asciende a la Pirámide del Sol y descubre los secretos de la ciudad más grande del mundo antiguo. Visita al amanecer para una experiencia única.</p>
+        <span class="tour-duration">Tour de 8 horas</span>
+      </div>
+      <div class="tour-card reveal">
+        <span class="tour-icon">🌿</span>
+        <div class="tour-name">Chichén Itzá</div>
+        <div class="tour-location">Yucatán</div>
+        <p class="tour-desc">Maravilla del mundo moderno. Explora El Castillo, el Templo de los Guerreros y el Juego de Pelota con nuestros expertos mayas.</p>
+        <span class="tour-duration">Tour de 10 horas</span>
+      </div>
+      <div class="tour-card reveal">
+        <span class="tour-icon">⛰️</span>
+        <div class="tour-name">Monte Albán</div>
+        <div class="tour-location">Oaxaca</div>
+        <p class="tour-desc">La gran capital zapoteca sobre las montañas de Oaxaca. Arquitectura monumental y astronomía antigua en un paisaje impresionante.</p>
+        <span class="tour-duration">Tour de 6 horas</span>
+      </div>
+      <div class="tour-card reveal">
+        <span class="tour-icon">🌴</span>
+        <div class="tour-name">Palenque</div>
+        <div class="tour-location">Chiapas</div>
+        <p class="tour-desc">Entre la selva lacandona, descubre el palacio de Pakal el Grande y los intrincados relieves que narran la historia maya con una profundidad sin igual.</p>
+        <span class="tour-duration">Tour de 2 días</span>
+      </div>
+      <div class="tour-card reveal">
+        <span class="tour-icon">🌊</span>
+        <div class="tour-name">Tulum</div>
+        <div class="tour-location">Quintana Roo</div>
+        <p class="tour-desc">La única ciudad maya construida sobre acantilados frente al Caribe. Historia, arqueología y uno de los paisajes más bellos de México.</p>
+        <span class="tour-duration">Tour de 5 horas</span>
+      </div>
+      <div class="tour-card reveal">
+        <span class="tour-icon">🦜</span>
+        <div class="tour-name">Uxmal</div>
+        <div class="tour-location">Yucatán</div>
+        <p class="tour-desc">La joya del estilo Puuc. La Pirámide del Adivino y el Cuadrángulo de las Monjas muestran la arquitectura maya en su expresión más refinada.</p>
+        <span class="tour-duration">Tour de 8 horas</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="testimonials-header">
+      <span class="section-label" style="color:var(--gold)">Testimonios</span>
+      <h2 class="section-title">Lo que dicen nuestros<br><em style="color:var(--gold)">viajeros</em></h2>
+      <div class="divider center"></div>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <p class="testimonial-text">Una experiencia transformadora. Ver el amanecer desde lo alto de la Pirámide del Sol con un guía que conoce cada piedra fue algo que jamás olvidaré.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">ML</div>
+          <div>
+            <div class="stars">★★★★★</div>
+            <div class="author-name">María López</div>
+            <div class="author-tour">Tour Teotihuacán al Alba</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <p class="testimonial-text">El nivel de conocimiento de los guías es extraordinario. Aprendimos más en ese día que en años leyendo libros. Chichén Itzá cobra vida de una manera especial.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">CR</div>
+          <div>
+            <div class="stars">★★★★★</div>
+            <div class="author-name">Carlos Ramírez</div>
+            <div class="author-tour">Tour Chichén Itzá</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <p class="testimonial-text">Viajamos en familia con niños y fue perfecto. Los guías saben cómo hacer que la historia sea emocionante para todos. Monte Albán nos dejó sin palabras.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AG</div>
+          <div>
+            <div class="stars">★★★★★</div>
+            <div class="author-name">Ana González</div>
+            <div class="author-tour">Tour Monte Albán Familiar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="contact-info reveal">
+        <span class="section-label">Contacto</span>
+        <h2 class="section-title">Comienza tu <em>aventura</em></h2>
+        <div class="divider"></div>
+        <p>¿Listo para descubrir la grandeza de las civilizaciones antiguas? Escríbenos y un asesor especializado te diseñará la experiencia perfecta para ti.</p>
+        <div class="contact-details">
+          <div class="contact-item">
+            <div class="contact-icon">✉</div>
+            <div class="contact-item-text">
+              <div class="contact-item-label">Email</div>
+              hola@explore.com
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📱</div>
+            <div class="contact-item-text">
+              <div class="contact-item-label">WhatsApp & Tel</div>
+              +52 55 0000 0000
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div class="contact-item-text">
+              <div class="contact-item-label">Oficina</div>
+              Ciudad de México, CDMX
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap reveal">
+        <p class="form-title">Envíanos un mensaje</p>
+        <form method="post" action="#contact">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group">
+              <label for="{{ form.nombre.id_for_label }}">{{ form.nombre.label }}</label>
+              {{ form.nombre }}
+              {% if form.nombre.errors %}<div class="form-errors">{{ form.nombre.errors|join:", " }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+              {{ form.email }}
+              {% if form.email.errors %}<div class="form-errors">{{ form.email.errors|join:", " }}</div>{% endif %}
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="{{ form.telefono.id_for_label }}">{{ form.telefono.label }}</label>
+              {{ form.telefono }}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.tour.id_for_label }}">{{ form.tour.label }}</label>
+              {{ form.tour }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="{{ form.mensaje.id_for_label }}">{{ form.mensaje.label }}</label>
+            {{ form.mensaje }}
+            {% if form.mensaje.errors %}<div class="form-errors">{{ form.mensaje.errors|join:", " }}</div>{% endif %}
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;text-align:center;padding:1rem">
+            Enviar Mensaje
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">Explore</span>
+        <p>Llevamos a viajeros apasionados a descubrir la grandeza de las civilizaciones mesoamericanas. Cada piedra cuenta una historia.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tours</h4>
+        <ul>
+          <li><a href="#tours">Teotihuacán</a></li>
+          <li><a href="#tours">Chichén Itzá</a></li>
+          <li><a href="#tours">Monte Albán</a></li>
+          <li><a href="#tours">Palenque</a></li>
+          <li><a href="#tours">Tulum</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#about">Nosotros</a></li>
+          <li><a href="#testimonials">Testimonios</a></li>
+          <li><a href="#contact">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Explore. Todos los derechos reservados.</span>
+      <span>Hecho con ❤ para los amantes de la historia</span>
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger menu
+    function toggleMenu() {
+      document.getElementById('nav-links').classList.toggle('open');
+    }
+    // Close on link click
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Auto-dismiss messages
+    setTimeout(() => {
+      document.querySelectorAll('.message-alert').forEach(el => {
+        el.style.transition = 'opacity .5s';
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 500);
+      });
+    }, 5000);
+
+    // Nav color on scroll
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').style.background =
+        window.scrollY > 60 ? 'rgba(26,18,8,0.98)' : 'rgba(26,18,8,0.92)';
+    });
+  </script>
+</body>
+</html>
