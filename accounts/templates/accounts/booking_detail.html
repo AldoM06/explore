@@ -1,0 +1,39 @@
+{% extends "accounts/base_panel.html" %}
+{% block title %}{{ booking.tour_name }}{% endblock %}
+{% block page_title %}{{ booking.tour_name }}{% endblock %}
+{% block breadcrumb %}<a href="{% url 'accounts:client_dashboard' %}" style="color:inherit">Mis viajes</a> · Detalle{% endblock %}
+{% block sidebar_nav %}
+  <div class="sidebar-section">Mi portal</div>
+  <a href="{% url 'accounts:client_dashboard' %}" class="sidebar-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Mis viajes</a>
+  <a href="{% url 'accounts:client_new_booking' %}" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Nueva reserva</a>
+  <a href="{% url 'accounts:client_profile' %}" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Mi perfil</a>
+  <a href="{% url 'home' %}" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12L12 4l9 8"/><path d="M5 10v10h14V10"/></svg>Sitio web</a>
+{% endblock %}
+{% block content %}
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+  <div class="card">
+    <div class="card-title">Detalles del viaje</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem">
+      <div><div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#7A6A55">Tour</div><div style="font-weight:500;margin-top:.2rem">{{ booking.tour_name }}</div></div>
+      <div><div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#7A6A55">Fecha</div><div style="font-weight:500;margin-top:.2rem">{{ booking.travel_date|date:"d/m/Y" }}</div></div>
+      <div><div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#7A6A55">Personas</div><div style="font-weight:500;margin-top:.2rem">{{ booking.num_people }}</div></div>
+      <div><div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#7A6A55">Idioma</div><div style="font-weight:500;margin-top:.2rem">{{ booking.language }}</div></div>
+      <div><div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#7A6A55">Estado</div><div style="margin-top:.2rem"><span class="badge badge-{{ booking.status }}">{{ booking.get_status_display }}</span></div></div>
+      {% if booking.total_price %}<div><div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:#7A6A55">Total</div><div style="font-weight:600;color:#8B5E1A;font-size:1.1rem;margin-top:.2rem">${{ booking.total_price }} MXN</div></div>{% endif %}
+    </div>
+    {% if booking.notes %}<div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,.06)"><div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#7A6A55;margin-bottom:.4rem">Mis notas</div><div style="font-size:.85rem;color:#5A4A35">{{ booking.notes }}</div></div>{% endif %}
+  </div>
+  <div class="card">
+    <div class="card-title">Documentos</div>
+    <div class="card-sub">Tus vouchers, itinerarios y facturas</div>
+    {% for doc in documents %}
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:.7rem 0;border-bottom:1px solid rgba(0,0,0,.05)">
+      <div><div style="font-weight:500;font-size:.85rem">{{ doc.title }}</div><div style="font-size:.72rem;color:#7A6A55">{{ doc.get_doc_type_display }}</div></div>
+      <a href="{{ doc.file.url }}" target="_blank" class="btn btn-primary" style="font-size:.7rem;padding:.4rem 1rem">Descargar</a>
+    </div>
+    {% empty %}
+    <p style="font-size:.83rem;color:#7A6A55">Tu asesor adjuntará aquí los documentos una vez confirmada la reserva.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

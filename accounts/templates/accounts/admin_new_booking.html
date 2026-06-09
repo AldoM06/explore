@@ -1,0 +1,33 @@
+{% extends "accounts/base_panel.html" %}
+{% block title %}Nueva reservación{% endblock %}
+{% block page_title %}Nueva reservación{% endblock %}
+{% block breadcrumb %}<a href="{% url 'accounts:admin_bookings' %}" style="color:inherit">Reservaciones</a> · Nueva{% endblock %}
+{% block sidebar_nav %}
+  <div class="sidebar-section">Administración</div>
+  <a href="{% url 'accounts:admin_dashboard' %}" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+  <a href="{% url 'accounts:admin_clients' %}" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="7" r="4"/><path d="M2 21c0-4 3.1-7 7-7s7 3 7 7"/></svg>Clientes</a>
+  <a href="{% url 'accounts:admin_bookings' %}" class="sidebar-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Reservaciones</a>
+  <a href="{% url 'accounts:admin_contacts' %}" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v13H4z"/><path d="M4 4l8 9 8-9"/></svg>Contactos</a>
+  <a href="{% url 'home' %}" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12L12 4l9 8"/><path d="M5 10v10h14V10"/></svg>Sitio web</a>
+{% endblock %}
+{% block content %}
+<div class="card" style="max-width:680px">
+  <div class="card-title">Crear reservación</div>
+  <div class="card-sub">Asigna un tour a un cliente y configura todos los detalles.</div>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-grid">
+      {% for field in form %}
+      <div class="form-group">
+        <label>{{ field.label }}</label>{{ field }}
+        {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    <div style="display:flex;gap:.8rem">
+      <button type="submit" class="btn btn-primary">Crear reservación</button>
+      <a href="{% url 'accounts:admin_bookings' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

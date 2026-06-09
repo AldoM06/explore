@@ -1,0 +1,104 @@
+{% extends "accounts/base_panel.html" %}
+
+{% block title %}Mi cuenta{% endblock %}
+{% block page_title %}Mi cuenta{% endblock %}
+{% block breadcrumb %}Portal del viajero{% endblock %}
+
+{% block topbar_actions %}
+  <a href="{% url 'accounts:client_new_booking' %}" class="btn btn-primary">+ Nueva reserva</a>
+{% endblock %}
+
+{% block sidebar_nav %}
+  <div class="sidebar-section">Mi portal</div>
+  <a href="{% url 'accounts:client_dashboard' %}" class="sidebar-link active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Mis viajes
+  </a>
+  <a href="{% url 'accounts:client_new_booking' %}" class="sidebar-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    Nueva reserva
+  </a>
+  <a href="{% url 'accounts:client_profile' %}" class="sidebar-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Mi perfil
+  </a>
+  <div class="sidebar-section" style="margin-top:1rem">Xplore</div>
+  <a href="{% url 'home' %}" class="sidebar-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12L12 4l9 8"/><path d="M5 10v10h14V10"/></svg>
+    Sitio web
+  </a>
+{% endblock %}
+
+{% block content %}
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-val">{{ bookings.count }}</div>
+    <div class="stat-label">Total de viajes</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ upcoming.count }}</div>
+    <div class="stat-label">Próximos</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ past.count }}</div>
+    <div class="stat-label">Completados</div>
+  </div>
+</div>
+
+{% if upcoming %}
+<div class="card">
+  <div class="card-title">Próximos viajes</div>
+  <div class="card-sub">Tus reservaciones confirmadas y pendientes</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tour</th><th>Fecha</th><th>Personas</th><th>Idioma</th><th>Estado</th><th></th></tr></thead>
+      <tbody>
+        {% for b in upcoming %}
+        <tr>
+          <td><strong>{{ b.tour_name }}</strong></td>
+          <td>{{ b.travel_date|date:"d/m/Y" }}</td>
+          <td>{{ b.num_people }}</td>
+          <td>{{ b.language }}</td>
+          <td><span class="badge badge-{{ b.status }}">{{ b.get_status_display }}</span></td>
+          <td><a href="{% url 'accounts:client_booking_detail' b.pk %}" class="btn btn-secondary" style="padding:.35rem .9rem;font-size:.68rem">Ver</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+{% if past %}
+<div class="card">
+  <div class="card-title">Historial de viajes</div>
+  <div class="card-sub">Tus experiencias pasadas con Xplore</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tour</th><th>Fecha</th><th>Personas</th><th>Estado</th><th>Documentos</th><th></th></tr></thead>
+      <tbody>
+        {% for b in past %}
+        <tr>
+          <td><strong>{{ b.tour_name }}</strong></td>
+          <td>{{ b.travel_date|date:"d/m/Y" }}</td>
+          <td>{{ b.num_people }}</td>
+          <td><span class="badge badge-{{ b.status }}">{{ b.get_status_display }}</span></td>
+          <td>{{ b.documents.count }} archivos</td>
+          <td><a href="{% url 'accounts:client_booking_detail' b.pk %}" class="btn btn-secondary" style="padding:.35rem .9rem;font-size:.68rem">Ver</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+{% if not bookings %}
+<div class="card" style="text-align:center;padding:3rem">
+  <div style="font-size:2.5rem;margin-bottom:1rem">🏛️</div>
+  <div class="card-title">¡Bienvenido a Xplore!</div>
+  <p style="color:#7A6A55;font-size:.88rem;margin-bottom:1.5rem">Aún no tienes reservaciones. ¿Listo para descubrir la historia de México?</p>
+  <a href="{% url 'accounts:client_new_booking' %}" class="btn btn-primary">Reservar mi primer tour</a>
+</div>
+{% endif %}
+{% endblock %}

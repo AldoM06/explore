@@ -1,0 +1,29 @@
+{% extends "accounts/base_panel.html" %}
+{% block title %}Mi perfil{% endblock %}
+{% block page_title %}Mi perfil{% endblock %}
+{% block breadcrumb %}Mi cuenta · Perfil{% endblock %}
+{% block sidebar_nav %}
+  <div class="sidebar-section">Mi portal</div>
+  <a href="{% url 'accounts:client_dashboard' %}" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Mis viajes</a>
+  <a href="{% url 'accounts:client_new_booking' %}" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Nueva reserva</a>
+  <a href="{% url 'accounts:client_profile' %}" class="sidebar-link active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Mi perfil</a>
+  <a href="{% url 'home' %}" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12L12 4l9 8"/><path d="M5 10v10h14V10"/></svg>Sitio web</a>
+{% endblock %}
+{% block content %}
+<div class="card" style="max-width:600px">
+  <div class="card-title">Datos personales</div>
+  <div class="card-sub">Actualiza tu información de contacto y preferencias.</div>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-grid">
+      {% for field in form %}
+      <div class="form-group">
+        <label>{{ field.label }}</label>{{ field }}
+        {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+  </form>
+</div>
+{% endblock %}

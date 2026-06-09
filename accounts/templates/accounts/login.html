@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión — Xplore</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--gold:#C9923A;--gold-l:#E8C97A;--black:#0D0C09;--white:#FAF6EE;--stone:#7A6A55;--ff:'Montserrat',sans-serif;--ffd:'Cormorant Garamond',serif}
+    body{font-family:var(--ff);background:var(--black);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+    .bg{position:fixed;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(201,146,58,.07) 0%,transparent 60%),linear-gradient(135deg,#0D0C09,#171410);z-index:0}
+    .card{position:relative;z-index:1;background:#1C1A14;border:1px solid rgba(201,146,58,.15);padding:2.8rem 2.5rem;width:100%;max-width:420px}
+    .logo{font-family:var(--ffd);font-size:2.2rem;font-weight:600;color:var(--gold);text-align:center;display:block;margin-bottom:.2rem}
+    .logo-sub{font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(201,146,58,.4);text-align:center;display:block;margin-bottom:2rem}
+    .card-title{font-family:var(--ffd);font-size:1.5rem;color:var(--white);margin-bottom:.3rem;font-weight:400}
+    .card-sub{font-size:.78rem;color:var(--stone);margin-bottom:1.8rem}
+    .form-group{margin-bottom:1rem}
+    .form-group label{display:block;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--stone);margin-bottom:.5rem}
+    .form-group input{width:100%;padding:.8rem 1rem;border:1px solid rgba(201,146,58,.15);background:rgba(255,255,255,.03);font-family:var(--ff);font-size:.88rem;color:var(--white);outline:none;transition:border-color .2s;border-radius:0;appearance:none}
+    .form-group input::placeholder{color:rgba(250,246,238,.2)}
+    .form-group input:focus{border-color:var(--gold)}
+    .errorlist{list-style:none;font-size:.75rem;color:#e07070;margin-top:.3rem}
+    .btn{display:block;width:100%;padding:.9rem;background:var(--gold);color:var(--black);font-family:var(--ff);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:all .2s;margin-top:1.5rem}
+    .btn:hover{background:var(--gold-l)}
+    .divider{text-align:center;color:rgba(201,146,58,.3);font-size:.65rem;letter-spacing:.2em;margin:1.5rem 0;border-top:1px solid rgba(201,146,58,.1);padding-top:1.5rem}
+    .link-register{display:block;text-align:center;font-size:.78rem;color:var(--stone);text-decoration:none;transition:color .2s}
+    .link-register span{color:var(--gold)}
+    .link-register:hover span{color:var(--gold-l)}
+    .back-link{display:block;text-align:center;margin-top:1rem;font-size:.72rem;color:rgba(201,146,58,.4);text-decoration:none;transition:color .2s}
+    .back-link:hover{color:var(--gold)}
+    .alert{padding:.75rem 1rem;border-left:2px solid var(--gold);background:rgba(201,146,58,.08);font-size:.8rem;color:rgba(250,246,238,.8);margin-bottom:1.2rem}
+    .alert.error{border-color:#e07070;background:rgba(224,112,112,.08)}
+  </style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="card">
+  <span class="logo">Xplore</span>
+  <span class="logo-sub">Turismo Cultural Premium</span>
+
+  {% if messages %}
+    {% for message in messages %}
+    <div class="alert {% if message.tags == 'error' %}error{% endif %}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="card-title">Iniciar sesión</div>
+  <div class="card-sub">Accede a tu cuenta para ver tus viajes y reservaciones</div>
+
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+      <label>{{ field.label }}</label>
+      {{ field }}
+      {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+    </div>
+    {% endfor %}
+    {% if form.non_field_errors %}
+    <div class="alert error">{{ form.non_field_errors|join:" " }}</div>
+    {% endif %}
+    <button type="submit" class="btn">Entrar</button>
+  </form>
+
+  <div class="divider">¿No tienes cuenta?</div>
+  <a href="{% url 'accounts:register' %}" class="link-register">Regístrate gratis <span>→</span></a>
+  <a href="{% url 'home' %}" class="back-link">← Volver al sitio</a>
+</div>
+</body>
+</html>
