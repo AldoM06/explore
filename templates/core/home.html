@@ -665,6 +665,39 @@
       .btn-gold, .btn-outline-gold { width: 100%; padding: .8rem; }
       .hero-buttons .btn { width: 100%; }
     }
+    /* Ajuste final: imagenes compactas en las tarjetas emergentes */
+    .tour-info-modal .modal-dialog {
+      max-width: min(980px, calc(100% - 1.5rem));
+    }
+    .tour-info-modal .modal-body .row {
+      align-items: stretch;
+    }
+    .tour-modal-image {
+      width: 100%;
+      height: 320px !important;
+      max-height: 320px;
+      object-fit: cover;
+      object-position: center;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+    }
+    @media (min-width: 992px) {
+      .tour-modal-image {
+        height: 100% !important;
+        max-height: none;
+        min-height: 430px;
+      }
+    }
+    @media (max-width: 768px) {
+      .tour-info-modal .modal-dialog {
+        max-width: calc(100% - 1rem);
+      }
+      .tour-modal-image {
+        height: 230px !important;
+        max-height: 230px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -942,7 +975,7 @@
                 <li>Explicación histórica y cultural</li>
                 <li>Espacio para preguntas durante la visita</li>
               </ul>
-              <a href="#contact" class="btn btn-gold mt-3" data-bs-dismiss="modal">Reservar este tour</a>
+              <a href="#contact" class="btn btn-gold mt-3 tour-reserve-link">Reservar este tour</a>
             </div>
           </div>
         </div>
@@ -980,7 +1013,7 @@
                 <li>Explicación histórica y cultural</li>
                 <li>Espacio para preguntas durante la visita</li>
               </ul>
-              <a href="#contact" class="btn btn-gold mt-3" data-bs-dismiss="modal">Reservar este tour</a>
+              <a href="#contact" class="btn btn-gold mt-3 tour-reserve-link">Reservar este tour</a>
             </div>
           </div>
         </div>
@@ -1018,7 +1051,7 @@
                 <li>Explicación histórica y cultural</li>
                 <li>Espacio para preguntas durante la visita</li>
               </ul>
-              <a href="#contact" class="btn btn-gold mt-3" data-bs-dismiss="modal">Reservar este tour</a>
+              <a href="#contact" class="btn btn-gold mt-3 tour-reserve-link">Reservar este tour</a>
             </div>
           </div>
         </div>
@@ -1056,7 +1089,7 @@
                 <li>Explicación histórica y cultural</li>
                 <li>Espacio para preguntas durante la visita</li>
               </ul>
-              <a href="#contact" class="btn btn-gold mt-3" data-bs-dismiss="modal">Reservar este tour</a>
+              <a href="#contact" class="btn btn-gold mt-3 tour-reserve-link">Reservar este tour</a>
             </div>
           </div>
         </div>
@@ -1094,7 +1127,7 @@
                 <li>Explicación histórica y cultural</li>
                 <li>Espacio para preguntas durante la visita</li>
               </ul>
-              <a href="#contact" class="btn btn-gold mt-3" data-bs-dismiss="modal">Reservar este tour</a>
+              <a href="#contact" class="btn btn-gold mt-3 tour-reserve-link">Reservar este tour</a>
             </div>
           </div>
         </div>
@@ -1114,59 +1147,202 @@
       </div>
       <div class="row g-4">
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="tour-card">
+          <button class="tour-card tour-card-button w-100 h-100" type="button" data-bs-toggle="modal" data-bs-target="#pasoCortesModal">
             <span class="tour-icon">🌄</span>
             <div class="tour-name">Amanecer en Paso de Cortés</div>
             <div class="tour-location">Estado de México</div>
-            <p class="tour-desc">Experiencia de exploración en alta montaña que nos lleva a uno de los pasos naturales más emblemáticos entre el Iztaccíhuatl y el Popocatépetl. Durante el recorrido se realiza una interpretación del paisaje volcánico, su importancia ecológica y su valor dentro de la cosmovisión e historia del Valle de México.
-
-La actividad está diseñada para observar el amanecer desde un entorno de alta montaña, promoviendo una conexión consciente con el territorio y prácticas de mínimo impacto que favorecen la conservación del área natural.
-
-La experiencia se desarrolla aproximadamente a 3,800 msnm, en un entorno de bosque de coníferas y paisaje alpino de gran valor ecológico.</p>
+            <p class="tour-desc">Experiencia de exploración en alta montaña que nos lleva a uno de los pasos naturales más emblemáticos entre el Iztaccíhuatl y el Popocatépetl. Durante el recorrido se realiza una interpretación del paisaje volcánico, su importancia ecológica y su valor dentro de la cosmovisión e historia del Valle de México. La actividad está diseñada para observar el amanecer desde un entorno de alta montaña, promoviendo una conexión consciente con el territorio y prácticas de mínimo impacto que favorecen la conservación del área natural.</p>
             <span class="tour-duration"><i class="bi bi-clock"></i> Tour de 4-6 horas</span>
-          </div>
+            <span class="tour-detail-btn"><i class="bi bi-images"></i> Ver detalles</span>
+          </button>
         </div>
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="tour-card">
+          <button class="tour-card tour-card-button w-100 h-100" type="button" data-bs-toggle="modal" data-bs-target="#malincheModal">
             <span class="tour-icon">⛰️</span>
             <div class="tour-name">Cima en el volcán La Malinche</div>
             <div class="tour-location">Tlaxcala</div>
-            <p class="tour-desc">Experiencia de ascenso en montaña volcánica que nos lleva a uno de los picos más representativos del centro de México. A lo largo del recorrido se atraviesan distintos pisos ecológicos que permiten observar la transición del bosque templado hacia el entorno de alta montaña, comprendiendo la riqueza biológica y geológica del volcán.
-
-La experiencia promueve la apreciación del paisaje como un sistema vivo, así como la importancia de su conservación mediante prácticas de mínimo impacto en ecosistemas frágiles de alta elevación.
-
-El ascenso alcanza una altitud aproximada de 4,461 msnm, ofreciendo una experiencia física demandante y una vista panorámica de la Sierra Nevada y el altiplano central.</p>
+            <p class="tour-desc">Experiencia de ascenso en montaña volcánica que nos lleva a uno de los picos más representativos del centro de México. A lo largo del recorrido se atraviesan distintos pisos ecológicos que permiten observar la transición del bosque templado hacia el entorno de alta montaña, comprendiendo la riqueza biológica y geológica del volcán.</p>
             <span class="tour-duration"><i class="bi bi-clock"></i> Tour de 8-10 horas</span>
-          </div>
+            <span class="tour-detail-btn"><i class="bi bi-images"></i> Ver detalles</span>
+          </button>
         </div>
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="tour-card">
+          <button class="tour-card tour-card-button w-100 h-100" type="button" data-bs-toggle="modal" data-bs-target="#iztaccihuatlModal">
             <span class="tour-icon">🏔️</span>
-            <div class="tour-name">Cima Volcan Iztaccíhuatl</div>
+            <div class="tour-name">Cima Volcán Iztaccíhuatl</div>
             <div class="tour-location">Estado de México</div>
-            <p class="tour-desc">Experiencia de ascenso en alta montaña que conduce a uno de los volcanes más emblemáticos de México, conocido por su silueta legendaria y su relevancia dentro del paisaje cultural del Valle de México, siendo la tercera montaña más alta del México. A lo largo del recorrido se atraviesan ecosistemas de bosque de coníferas y zonas de alta montaña, donde se observa la transición del entorno natural hasta condiciones de gran altitud.
-
-El ascenso alcanza una altitud aproximada de 5,230 msnm, representando un reto físico exigente y una experiencia de conexión profunda con la alta montaña.</p>
+            <p class="tour-desc">Experiencia de ascenso en alta montaña que conduce a uno de los volcanes más emblemáticos de México, conocido por su silueta legendaria y su relevancia dentro del paisaje cultural del Valle de México. A lo largo del recorrido se atraviesan ecosistemas de bosque de coníferas y zonas de alta montaña, donde se observa la transición del entorno natural hasta condiciones de gran altitud.</p>
             <span class="tour-duration"><i class="bi bi-clock"></i> Tour de 2 días</span>
-          </div>
+            <span class="tour-detail-btn"><i class="bi bi-images"></i> Ver detalles</span>
+          </button>
         </div>
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="tour-card">
+          <button class="tour-card tour-card-button w-100 h-100" type="button" data-bs-toggle="modal" data-bs-target="#picoOrizabaModal">
             <span class="tour-icon">🗻</span>
-            <div class="tour-name">Cima Pico de Orizaba </div>
+            <div class="tour-name">Cima Pico de Orizaba</div>
             <div class="tour-location">Puebla</div>
-            <p class="tour-desc">Experiencia de ascenso en alta montaña que conduce al punto más alto de México, el volcán Citlaltépetl. El recorrido se realiza en modalidad de ascenso nocturno, permitiendo el avance bajo condiciones de alta montaña y la observación del cambio del entorno conforme se gana altitud.
-
-A lo largo de la ruta se transita sobre el único glaciar activo del país, un ecosistema de extrema fragilidad que requiere prácticas estrictas de mínimo impacto y una profunda conciencia de conservación. La experiencia está orientada a la interpretación del paisaje glaciar, la adaptación a la altitud y el respeto por las condiciones naturales del entorno.
-
-El ascenso alcanza una altitud aproximada de 5,636 msnm, representando un desafío técnico y físico de alta exigencia en el sistema volcánico de la Sierra Madre Oriental.</p>
+            <p class="tour-desc">Experiencia de ascenso en alta montaña que conduce al punto más alto de México, el volcán Citlaltépetl. El recorrido se realiza en modalidad de ascenso nocturno, permitiendo el avance bajo condiciones de alta montaña y la observación del cambio del entorno conforme se gana altitud. A lo largo de la ruta se transita sobre el único glaciar activo del país, un ecosistema de extrema fragilidad que requiere prácticas estrictas de mínimo impacto.</p>
             <span class="tour-duration"><i class="bi bi-clock"></i> Tour de 2 días</span>
-          </div>
+            <span class="tour-detail-btn"><i class="bi bi-images"></i> Ver detalles</span>
+          </button>
         </div>
        
       </div>
     </div>
   </section>
+
+  <!-- MODALES TOURS NATURALEZA -->
+  <div class="modal fade tour-info-modal" id="pasoCortesModal" tabindex="-1" aria-labelledby="pasoCortesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <p class="hero-eyebrow mb-2">Tour Naturaleza · Estado de México</p>
+            <h3 class="modal-title" id="pasoCortesModalLabel">Amanecer en Paso de Cortés</h3>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body p-0">
+          <div class="row g-0">
+            <div class="col-lg-7">
+              <img class="tour-modal-image" src="{% static 'img/paso de cortes.jpg' %}" alt="Paso de Cortés">
+            </div>
+            <div class="col-lg-5 p-4 p-lg-5">
+              <div class="tour-modal-label">Información del recorrido</div>
+              <p class="tour-desc d-block">Experiencia de exploración en alta montaña que nos lleva a uno de los pasos naturales más emblemáticos entre el Iztaccíhuatl y el Popocatépetl. Durante el recorrido se realiza una interpretación del paisaje volcánico, su importancia ecológica y su valor dentro de la cosmovisión e historia del Valle de México. La actividad está diseñada para observar el amanecer desde un entorno de alta montaña, promoviendo una conexión consciente con el territorio y prácticas de mínimo impacto que favorecen la conservación del área natural.</p>
+              <ul class="tour-modal-list">
+                <li><strong>Duración:</strong> 4-6 horas</li>
+                <li><strong>Ubicación:</strong> Estado de México</li>
+                <li><strong>Enfoque:</strong> amanecer, paisaje volcánico, interpretación natural y conservación</li>
+                <li><strong>Ideal para:</strong> viajeros que buscan naturaleza y montaña</li>
+              </ul>
+              <div class="tour-modal-label mt-4">Qué incluye</div>
+              <ul class="tour-modal-list">
+                <li>Guía especializado durante el recorrido</li>
+                <li>Interpretación del paisaje natural</li>
+                <li>Recomendaciones de seguridad y mínimo impacto</li>
+              </ul>
+              <a href="#contact" class="btn btn-gold mt-3 tour-reserve-link">Reservar este tour</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade tour-info-modal" id="malincheModal" tabindex="-1" aria-labelledby="malincheModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <p class="hero-eyebrow mb-2">Tour Naturaleza · Tlaxcala</p>
+            <h3 class="modal-title" id="malincheModalLabel">Cima en el volcán La Malinche</h3>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body p-0">
+          <div class="row g-0">
+            <div class="col-lg-7">
+              <img class="tour-modal-image" src="{% static 'img/malinche.jpg' %}" alt="Volcán La Malinche">
+            </div>
+            <div class="col-lg-5 p-4 p-lg-5">
+              <div class="tour-modal-label">Información del recorrido</div>
+              <p class="tour-desc d-block">Experiencia de ascenso en montaña volcánica que nos lleva a uno de los picos más representativos del centro de México. A lo largo del recorrido se atraviesan distintos pisos ecológicos que permiten observar la transición del bosque templado hacia el entorno de alta montaña, comprendiendo la riqueza biológica y geológica del volcán.</p>
+              <ul class="tour-modal-list">
+                <li><strong>Duración:</strong> 8-10 horas</li>
+                <li><strong>Ubicación:</strong> Tlaxcala</li>
+                <li><strong>Enfoque:</strong> alta montaña, pisos ecológicos, geología volcánica y senderismo</li>
+                <li><strong>Ideal para:</strong> viajeros que buscan naturaleza y montaña</li>
+              </ul>
+              <div class="tour-modal-label mt-4">Qué incluye</div>
+              <ul class="tour-modal-list">
+                <li>Guía especializado durante el recorrido</li>
+                <li>Interpretación del paisaje natural</li>
+                <li>Recomendaciones de seguridad y mínimo impacto</li>
+              </ul>
+              <a href="#contact" class="btn btn-gold mt-3 tour-reserve-link">Reservar este tour</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade tour-info-modal" id="iztaccihuatlModal" tabindex="-1" aria-labelledby="iztaccihuatlModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <p class="hero-eyebrow mb-2">Tour Naturaleza · Estado de México</p>
+            <h3 class="modal-title" id="iztaccihuatlModalLabel">Cima Volcán Iztaccíhuatl</h3>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body p-0">
+          <div class="row g-0">
+            <div class="col-lg-7">
+              <img class="tour-modal-image" src="{% static 'img/iztaccihuatldetalles.jpg' %}" alt="Volcán Iztaccíhuatl">
+            </div>
+            <div class="col-lg-5 p-4 p-lg-5">
+              <div class="tour-modal-label">Información del recorrido</div>
+              <p class="tour-desc d-block">Experiencia de ascenso en alta montaña que conduce a uno de los volcanes más emblemáticos de México, conocido por su silueta legendaria y su relevancia dentro del paisaje cultural del Valle de México. A lo largo del recorrido se atraviesan ecosistemas de bosque de coníferas y zonas de alta montaña, donde se observa la transición del entorno natural hasta condiciones de gran altitud.</p>
+              <ul class="tour-modal-list">
+                <li><strong>Duración:</strong> 2 días</li>
+                <li><strong>Ubicación:</strong> Estado de México</li>
+                <li><strong>Enfoque:</strong> ascenso de alta montaña, paisaje cultural y ecosistemas alpinos</li>
+                <li><strong>Ideal para:</strong> viajeros que buscan naturaleza y montaña</li>
+              </ul>
+              <div class="tour-modal-label mt-4">Qué incluye</div>
+              <ul class="tour-modal-list">
+                <li>Guía especializado durante el recorrido</li>
+                <li>Interpretación del paisaje natural</li>
+                <li>Recomendaciones de seguridad y mínimo impacto</li>
+              </ul>
+              <a href="#contact" class="btn btn-gold mt-3 tour-reserve-link">Reservar este tour</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade tour-info-modal" id="picoOrizabaModal" tabindex="-1" aria-labelledby="picoOrizabaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <p class="hero-eyebrow mb-2">Tour Naturaleza · Puebla</p>
+            <h3 class="modal-title" id="picoOrizabaModalLabel">Cima Pico de Orizaba</h3>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body p-0">
+          <div class="row g-0">
+            <div class="col-lg-7">
+              <img class="tour-modal-image" src="{% static 'img/pico de orizaba.jpg' %}" alt="Pico de Orizaba">
+            </div>
+            <div class="col-lg-5 p-4 p-lg-5">
+              <div class="tour-modal-label">Información del recorrido</div>
+              <p class="tour-desc d-block">Experiencia de ascenso en alta montaña que conduce al punto más alto de México, el volcán Citlaltépetl. El recorrido se realiza en modalidad de ascenso nocturno, permitiendo el avance bajo condiciones de alta montaña y la observación del cambio del entorno conforme se gana altitud. A lo largo de la ruta se transita sobre el único glaciar activo del país, un ecosistema de extrema fragilidad que requiere prácticas estrictas de mínimo impacto.</p>
+              <ul class="tour-modal-list">
+                <li><strong>Duración:</strong> 2 días</li>
+                <li><strong>Ubicación:</strong> Puebla</li>
+                <li><strong>Enfoque:</strong> ascenso nocturno, glaciar, alta montaña y conservación</li>
+                <li><strong>Ideal para:</strong> viajeros que buscan naturaleza y montaña</li>
+              </ul>
+              <div class="tour-modal-label mt-4">Qué incluye</div>
+              <ul class="tour-modal-list">
+                <li>Guía especializado durante el recorrido</li>
+                <li>Interpretación del paisaje natural</li>
+                <li>Recomendaciones de seguridad y mínimo impacto</li>
+              </ul>
+              <a href="#contact" class="btn btn-gold mt-3 tour-reserve-link">Reservar este tour</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- TESTIMONIALS -->
   <section id="testimonials" class="testimonials-section section-padding">
@@ -1355,6 +1531,27 @@ El ascenso alcanza una altitud aproximada de 5,636 msnm, representando un desaf�
       if (nav) {
         nav.style.background = window.scrollY > 60 ? 'rgba(26,18,8,0.98)' : 'rgba(26,18,8,0.92)';
       }
+    });
+    // Modal reservation buttons
+    document.querySelectorAll('.tour-reserve-link').forEach(link => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        const modalEl = link.closest('.modal');
+        const contact = document.querySelector('#contact');
+
+        const goToContact = () => {
+          if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.replaceState(null, '', '#contact');
+        };
+
+        if (modalEl && window.bootstrap) {
+          const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+          modalEl.addEventListener('hidden.bs.modal', goToContact, { once: true });
+          modal.hide();
+        } else {
+          goToContact();
+        }
+      });
     });
   </script>
 </body>
